@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<!-- R2 (1.3.1/4.1.1): no lang attribute on <html>; also skipped heading levels below -->
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>WCAG multi-violation fixture</title>
+  <style>
+    body {
+      background-color: #ff0000;
+      font-family: system-ui, sans-serif;
+      padding: 2rem;
+      /* P5 (1.4.10): container narrower than 320px, will clip on reflow */
+      width: 280px;
+      overflow: hidden;
+    }
+    /* P3 (1.4.3): red-on-red text, contrast ratio 1:1 (needs 4.5:1) */
+    h1, h3, p, label, .fake-link {
+      color: #ff0000;
+      /* P5 (1.4.4): fixed pixel font size, does not scale with user settings */
+      font-size: 12px;
+    }
+    /* O2 (2.4.7): focus outline removed with no visible replacement */
+    *:focus { outline: none; }
+
+    /* O3 (2.5.8): 16x16 target, below the 24x24 minimum */
+    .icon-btn {
+      width: 16px; height: 16px;
+      background: #cc0000; border: none; padding: 0; margin: 0 2px;
+    }
+
+    /* P4 (1.4.1): error state conveyed by red border alone, no icon or text */
+    input.error { border: 2px solid #ff0000; }
+
+    /* P3 (1.4.11): low-contrast UI control against background */
+    button.primary {
+      background: #ee1111; color: #ff2222; border: 1px solid #ff0000;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- R2 (1.3.1/4.1.1): <nav> replaced with generic div -->
+  <div class="nav">
+    <!-- O5 (3.2.2): select auto-navigates on change with no submit action -->
+    <select onchange="location.href=this.value">
+      <option value="/">Home</option>
+      <option value="/about">About</option>
+      <option value="/contact">Contact</option>
+    </select>
+  </div>
+
+  <!-- R2 (1.3.1): heading levels skipped h1 -> h3 -->
+  <h1>Welcome</h1>
+  <h3>Sign up below</h3>
+
+  <!-- P1 (1.1.1): image with no alt / aria-label -->
+  <img src="logo.png">
+
+  <!-- P2 (1.2.x): video with no captions or transcript -->
+  <video src="intro.mp4" controls></video>
+
+  <p>Please enter your email address to sign up.</p>
+
+  <!-- U1 (3.3.2 / 1.3.1): input has only a placeholder, no <label>/aria-label.
+       P4 (1.4.1): error state shown only by red border, no message.
+       U2 (3.3.1/3.3.3): no error description or suggestion. -->
+  <input id="email" type="email" placeholder="Email" class="error">
+
+  <!-- O1 (2.1.1): custom control as <div> with onclick, no role, no tabindex,
+       no keydown handler — unreachable and unoperable by keyboard.
+       R1 (4.1.2): custom "button" with no role/name/state exposed to AT. -->
+  <div class="fake-link" onclick="submitForm()">Submit</div>
+
+  <!-- O3 (2.5.8): icon buttons below 24x24 with no spacing exception.
+       R1 (4.1.2): buttons with no accessible name (no text, no aria-label). -->
+  <div>
+    <button class="icon-btn"></button>
+    <button class="icon-btn"></button>
+    <button class="icon-btn"></button>
+  </div>
+
+  <!-- P3 (1.4.11): low-contrast interactive control -->
+  <button class="primary">Continue</button>
+
+  <!-- U3 (3.2.3/3.2.4): second "Submit" with different behavior than the first -->
+  <button onclick="window.close()">Submit</button>
+
+  <!-- R1 (4.1.2): custom disclosure widget missing aria-expanded / role -->
+  <div class="accordion" onclick="this.classList.toggle('open')">
+    More options
+    <div class="panel">Hidden content here</div>
+  </div>
+
+  <!-- O4 (2.4.11): sticky footer that can cover focused elements, no scroll handling -->
+  <div style="position:fixed;bottom:0;left:0;right:0;height:80px;background:#cc0000;"></div>
+
+</body>
+</html>
